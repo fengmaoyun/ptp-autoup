@@ -1,0 +1,12 @@
+{
+  "name": "ptp-autoup",
+  "version": "1.0.0",
+  "description": "A tool to auto-upload at ptp",
+  "main": "index.js",
+  "author": "impressioncr",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
