@@ -4,9 +4,14 @@
   "description": "A tool to auto-upload at ptp",
   "main": "index.js",
   "author": "impressioncr",
+  "bin": {
+    "ptp": "bin/bin.js"
+  },
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "nodemon": "^1.19.1"
+    "ecstatic": "^4.1.2",
+    "has-flag": "^4.0.0",
+    "shelljs": "^0.8.3"
   }
 }
