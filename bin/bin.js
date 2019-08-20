@@ -12,7 +12,7 @@ if (!argv[2]) {
 	console.log('参数错误')
 	process.exit()
 }
-shelljs.exec(`mkdir ${config.workDir}/${target}`)
+
 // make torrent
 let piece = '23'
 if (/\.mkv$/.test(target)) {
@@ -20,11 +20,13 @@ if (/\.mkv$/.test(target)) {
 	if (size/1024/1024 < 2) {
 		piece = '21'
 	}
+	shelljs.exec(`mkdir ${config.workDir}/${target}`)
 	shelljs.exec(`mktorrent -v -p -l ${piece} -a ${config.announce} -o ${config.workDir}/${target}/${target}.torrent ${target}`)
 } else {
 	// unrar if necessary
 	shelljs.exec(`unrar e ${target}`)
 	target = shelljs.ls('*.mkv')[0]
+	shelljs.exec(`mkdir ${config.workDir}/${target}`)
 	if (!/x264/.test(target)) {
 		const pwd = shelljs.exec('pwd').split('/')
 		const properName = pwd[pwd.length - 1]
