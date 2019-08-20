@@ -7,7 +7,8 @@ const shelljs = require('shelljs')
 const argv = process.argv
 const config = require('../config')
 let target = argv[2]
-
+const folder = target
+shelljs.exec(`mkdir ${config.workDir}/${folder}`)
 if (!argv[2]) {
 	console.log('参数错误')
 	process.exit()
@@ -20,13 +21,11 @@ if (/\.mkv$/.test(target)) {
 	if (size/1024/1024 < 2) {
 		piece = '21'
 	}
-	shelljs.exec(`mkdir ${config.workDir}/${target}`)
-	shelljs.exec(`mktorrent -v -p -l ${piece} -a ${config.announce} -o ${config.workDir}/${target}/${target}.torrent ${target}`)
+	shelljs.exec(`mktorrent -v -p -l ${piece} -a ${config.announce} -o ${config.workDir}/${folder}/${target}.torrent ${target}`)
 } else {
 	// unrar if necessary
 	shelljs.exec(`unrar e ${target}`)
 	target = shelljs.ls('*.mkv')[0]
-	shelljs.exec(`mkdir ${config.workDir}/${target}`)
 	if (!/x264/.test(target)) {
 		const pwd = shelljs.exec('pwd').split('/')
 		const properName = pwd[pwd.length - 1]
@@ -38,20 +37,20 @@ if (/\.mkv$/.test(target)) {
 		shelljs.mv(target, newTarget)
 		target = newTarget
 	}
-	shelljs.exec(`mktorrent -v -p -l ${piece} -a ${config.announce} -o ${config.workDir}/${target}/${target}.torrent ${target}`)
+	shelljs.exec(`mktorrent -v -p -l ${piece} -a ${config.announce} -o ${config.workDir}/${folder}/${target}.torrent ${target}`)
 }
 
 // make screenshots
-shelljs.exec(`ffmpeg -y -ss 1000  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${target}/${target}-s1.png`)
-shelljs.exec(`ffmpeg -y -ss 1500  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${target}/${target}-s2.png`)
-shelljs.exec(`ffmpeg -y -ss 2000  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${target}/${target}-s3.png`)
-shelljs.exec(`ffmpeg -y -ss 3000  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${target}/${target}-s4.png`)
-shelljs.exec(`ffmpeg -y -ss 3600  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${target}/${target}-s5.png`)
-shelljs.exec(`ffmpeg -y -ss 4500  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${target}/${target}-s6.png`)
+shelljs.exec(`ffmpeg -y -ss 1000  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${folder}/${target}-s1.png`)
+shelljs.exec(`ffmpeg -y -ss 1500  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${folder}/${target}-s2.png`)
+shelljs.exec(`ffmpeg -y -ss 2000  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${folder}/${target}-s3.png`)
+shelljs.exec(`ffmpeg -y -ss 3000  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${folder}/${target}-s4.png`)
+shelljs.exec(`ffmpeg -y -ss 3600  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${folder}/${target}-s5.png`)
+shelljs.exec(`ffmpeg -y -ss 4500  -i  ${target} -f  image2  -vframes 1 ${config.workDir}/${folder}/${target}-s6.png`)
 
 // mediainfo
 const mediainfo = shelljs.exec(`mediainfo ${target}`, { silent:true }).stdout
-fs.writeFileSync(`${config.workDir}/${target}/${target}-mediainfo.txt`, mediainfo)
+fs.writeFileSync(`${config.workDir}/${folder}/${target}-mediainfo.txt`, mediainfo)
 shelljs.mv(target, config.moveDir)
 
 // serve static files 
