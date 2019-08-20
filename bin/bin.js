@@ -12,6 +12,7 @@ if (!argv[2]) {
 	console.log('参数错误')
 	process.exit()
 }
+shelljs.exec(`mkdir ${config.workDir}/${target}`)
 // make torrent
 let piece = '23'
 if (/\.mkv$/.test(target)) {
