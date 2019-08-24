@@ -30,12 +30,12 @@ if (/\.mkv$/.test(target)) {
 		const pwd = shelljs.exec('pwd').split('/')
 		const properName = pwd[pwd.length - 1]
 		const newTarget = `${properName.trim()}.mkv`
-		const sizeT = shelljs.exec(`du ./${newTarget}`).stdout.split('\t')[0]
-		if (sizeT/1024/1024 < 2) {
-			piece = '21'
-		}
 		shelljs.mv(target, newTarget)
 		target = newTarget
+	}
+	const sizeT = shelljs.exec(`du ./${target}`).stdout.split('\t')[0]
+	if (sizeT/1024/1024 < 2) {
+		piece = '21'
 	}
 	shelljs.exec(`mktorrent -v -p -l ${piece} -a ${config.announce} -o ${config.workDir}/${folder}/${target}.torrent ${target}`)
 }
