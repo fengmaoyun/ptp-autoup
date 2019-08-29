@@ -51,7 +51,7 @@ shelljs.exec(`ffmpeg -y -ss 4500  -i  ${target} -f  image2  -vframes 1 ${config.
 // mediainfo
 const mediainfo = shelljs.exec(`mediainfo ${target}`, { silent:true }).stdout
 fs.writeFileSync(`${config.workDir}/${folder}/${target}-mediainfo.txt`, mediainfo)
-shelljs.mv(target, config.moveDir)
+!hasFlag('nomv') && shelljs.mv(target, config.moveDir)
 
 // serve static files 
 shelljs.cd(config.workDir)
