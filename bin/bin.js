@@ -26,7 +26,7 @@ if (/\.mkv$/.test(target)) {
 	// unrar if necessary
 	shelljs.exec(`unrar e ${target}`)
 	target = shelljs.ls('*.mkv')[0]
-	if (!/x264/.test(target)) {
+	if (!/x264|x265/.test(target)) {
 		const pwd = shelljs.exec('pwd').split('/')
 		const properName = pwd[pwd.length - 1]
 		const newTarget = `${properName.trim()}.mkv`
