@@ -55,6 +55,6 @@ fs.writeFileSync(`${config.workDir}/${folder}/${target}-mediainfo.txt`, mediainf
 
 // serve static files 
 shelljs.cd(config.workDir)
-const child = shelljs.exec('serve -l 9006', { async: true })
+const child = shelljs.exec('http-server -p 9006', { async: true })
 child.stdout.on('data', function(data) {
 })
